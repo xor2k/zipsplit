@@ -2,7 +2,6 @@
 zipsplit splits an uncompressed zip (as a `File` object) into multiple `File`
 objects in the browser.
 
-# Usage
 ## Installation
 ```
 npm install zipsplit
@@ -29,7 +28,7 @@ input.onchange = async () => {
 }
 ```
 
-# How to create uncompressed zip files?
+## How to create uncompressed zip files?
 On Linux and MacOS, this can be done with
 ```
 zip -0 archive.zip file1 file2 file3 ...
@@ -40,7 +39,7 @@ level "store". Alternatively, it also works in the command line
 7za a -m0=Copy archive.7z file1 file2 file3 ...
 ```
 
-# Background
+## Background
 Web apps are becoming more and more complex, reaching and sometimes surpassing
 the complexity of traditional desktop apps.
 

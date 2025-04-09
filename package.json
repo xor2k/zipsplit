@@ -1,6 +1,6 @@
 {
   "name": "zipsplit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "split an uncompressed zip into multiple File objects in the browser",
   "type": "module",
   "main": "dist/zipsplit.js",
