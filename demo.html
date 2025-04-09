@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zipsplit</title>
+</head>
+<body>
+    <h1>zipsplit</h1>
+    <p>Providing a file will log the zipsplit outputs to the developer
+    console.</p>
+    <script src="./dist/zipsplit.umd.js"></script>
+    <script>
+        const readFile = async (file) => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            [reader.onload, reader.onerror] = [
+                () => resolve(reader.result), () => reject(reader.error)
+            ];
+            reader.readAsText(file);
+        });
+        
+        const input = document.body.appendChild(document.createElement('input'));
+        input.type = 'file';
+        input.onchange = async () => {
+            // alternatively:            
+            // for(const file of await zipsplit.getAllFiles(input.files[0])){
+            for await (const file of zipsplit.iterateFiles(input.files[0])) {
+                console.log(file.name, await readFile(file));
+            };
+        }
+    </script>
+</body>
+</html>

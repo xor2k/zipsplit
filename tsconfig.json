@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "target": "ESNext",
+        "skipLibCheck": true,
+        "declaration": true,
+        "outDir": "./dist"
+    },
+    "include": ["./src/zipsplit.ts"]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "zipsplit",
+  "version": "0.1.0",
+  "description": "split an uncompressed zip into multiple File objects in the browser",
+  "type": "module",
+  "main": "dist/zipsplit.js",
+  "types": "dist/zipsplit.d.ts",
+  "scripts": {
+    "test": "tsx src/__tests__/index.test.ts",
+    "build": "rm -r dist && tsc --emitDeclarationOnly && tsx build.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xor2k/zipsplit.git"
+  },
+  "author": "Michael Siebert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xor2k/zipsplit/issues"
+  },
+  "homepage": "https://github.com/xor2k/zipsplit",
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "esbuild": "^0.25.2",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3"
+  }
+}
