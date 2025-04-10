@@ -16,16 +16,22 @@
             [reader.onload, reader.onerror] = [
                 () => resolve(reader.result), () => reject(reader.error)
             ];
+            // alternatively, for binary files:
+            // reader.readAsArrayBuffer(file);
             reader.readAsText(file);
         });
         
         const input = document.body.appendChild(document.createElement('input'));
         input.type = 'file';
         input.onchange = async () => {
-            // alternatively:            
-            // for(const file of await zipsplit.getAllFiles(input.files[0])){
-            for await (const file of zipsplit.iterateFiles(input.files[0])) {
-                console.log(file.name, await readFile(file));
+            // partial file read example, e.g. for files can be larger than RAM
+            const sampleSize = 8;
+            // alternatively, if the zip contains a huge number of files:
+            // for await (const file of zipsplit.iterateFiles(input.files[0])) {
+            for(const file of await zipsplit.getAllFiles(input.files[0])) {
+                console.log(file.name, await readFile(file.slice(0, sampleSize)) + (
+                    file.size > sampleSize ? '...' : ''
+                ));
             };
         }
     </script>

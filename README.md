@@ -14,19 +14,34 @@ const readFile = async (file) => new Promise((resolve, reject) => {
     [reader.onload, reader.onerror] = [
         () => resolve(reader.result), () => reject(reader.error)
     ];
+    // alternatively, for binary files:
+    // reader.readAsArrayBuffer(file);
     reader.readAsText(file);
 });
 
 const input = document.body.appendChild(document.createElement('input'));
 input.type = 'file';
 input.onchange = async () => {
-    // alternatively:            
-    // for(const file of await zipsplit.getAllFiles(input.files[0])){
-    for await (const file of zipsplit.iterateFiles(input.files[0])) {
-        console.log(file.name, await readFile(file));
+    // partial file read example, e.g. for files can be larger than RAM
+    const sampleSize = 8;
+    // alternatively, if the zip contains a huge number of files:
+    // for await (const file of zipsplit.iterateFiles(input.files[0])) {
+    for(const file of await zipsplit.getAllFiles(input.files[0])) {
+        console.log(file.name, await readFile(file.slice(0, sampleSize)) + (
+            file.size > sampleSize ? '...' : ''
+        ));
     };
 }
 ```
+
+## Features and Design Principles
+* Support for processing files potentially larger than RAM (zip64)
+* Support for zip files that contain a huge number of files
+* Simple code, only minimal zip feature support
+* Minimal dependencies
+* Latest TypeScript/JavaScript standard and features
+* Backwards compatible via UMD module
+* Tests run in Node.js
 
 ## How to create uncompressed zip files?
 On Linux and MacOS, this can be done with
@@ -41,7 +56,14 @@ level "store". Alternatively, it also works in the command line
 
 ## Background
 Web apps are becoming more and more complex, reaching and sometimes surpassing
-the complexity of traditional desktop apps.
+the complexity of traditional desktop apps. Also, existing codebases in C/C++
+can be reused in the web via [Emscripten](https://emscripten.org) as
+WebAssembly, e.g. [ffmpeg](https://www.ffmpeg.org). To do that however, web
+worker are highly recommendable as they are the only way to do synchronous
+file reads on user provided `File` objects, also see
+[workerfs](https://emscripten.org/docs/api_reference/Filesystem-API.html#filesystem-api-workerfs).
+In the main application (outside of a web worker), only asynchronous reads are
+possible.
 
 For large, data intense or low-latency applications, provided by a portable
 single page HTML app or something hosted in the cloud, it might make sense to
