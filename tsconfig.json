@@ -1,10 +1,18 @@
 {
     "compilerOptions": {
-        "module": "ESNext",
-        "target": "ESNext",
-        "skipLibCheck": true,
+        "module": "esnext",
+        "target": "esnext",
+        // workaround for https://github.com/microsoft/TypeScript/issues/61480
+        "lib": ["dom"],
         "declaration": true,
-        "outDir": "./dist"
+        "outDir": "./dist",
+        "paths": {
+            // This is solely to stop a bug with @types/node as of 12/15/2023
+            // https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/67406#discussioncomment-7866621
+            "undici-types": [
+                "./node_modules/undici-types/index.d.ts"
+            ],
+        }
     },
     "include": ["./src/zipsplit.ts"]
 }
